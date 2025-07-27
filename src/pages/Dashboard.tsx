@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ArrowLeft, Phone, User, DollarSign, MapPin, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -116,44 +117,67 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        {/* Customer Data Grid */}
+        {/* Customer Data Table */}
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold">Customer Records</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {dashboardData.map((customer) => (
-              <Card key={customer.id} className="bg-gradient-card shadow-soft border-0 hover:shadow-medium transition-all duration-300">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <User className="h-5 w-5 text-primary" />
-                      {customer.name}
-                    </CardTitle>
-                    <Badge variant="secondary" className="bg-primary/10 text-primary">
-                      ID: {customer.id}
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center gap-2 text-sm">
-                    <Phone className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-mono">{customer.phoneNumber}</span>
-                  </div>
-                  
-                  <div className="flex items-center gap-2 text-sm">
-                    <DollarSign className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-semibold text-lg text-primary">
-                      ${customer.budget.toLocaleString()}
-                    </span>
-                  </div>
-                  
-                  <div className="flex items-center gap-2 text-sm">
-                    <MapPin className="h-4 w-4 text-muted-foreground" />
-                    <span>{customer.cityArea}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <Card className="bg-gradient-card shadow-soft border-0">
+            <CardContent className="p-0">
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-border/50">
+                    <TableHead className="w-[100px] font-semibold">ID</TableHead>
+                    <TableHead className="font-semibold">
+                      <div className="flex items-center gap-2">
+                        <User className="h-4 w-4" />
+                        Name
+                      </div>
+                    </TableHead>
+                    <TableHead className="font-semibold">
+                      <div className="flex items-center gap-2">
+                        <Phone className="h-4 w-4" />
+                        Phone Number
+                      </div>
+                    </TableHead>
+                    <TableHead className="font-semibold">
+                      <div className="flex items-center gap-2">
+                        <DollarSign className="h-4 w-4" />
+                        Budget
+                      </div>
+                    </TableHead>
+                    <TableHead className="font-semibold">
+                      <div className="flex items-center gap-2">
+                        <MapPin className="h-4 w-4" />
+                        City Area
+                      </div>
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {dashboardData.map((customer) => (
+                    <TableRow key={customer.id} className="border-border/50 hover:bg-muted/50 transition-colors">
+                      <TableCell>
+                        <Badge variant="secondary" className="bg-primary/10 text-primary">
+                          {customer.id}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="font-medium">{customer.name}</TableCell>
+                      <TableCell>
+                        <span className="font-mono text-sm">{customer.phoneNumber}</span>
+                      </TableCell>
+                      <TableCell>
+                        <span className="font-semibold text-primary">
+                          ${customer.budget.toLocaleString()}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-muted-foreground">
+                        {customer.cityArea}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
