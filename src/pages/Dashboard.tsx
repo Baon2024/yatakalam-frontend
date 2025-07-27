@@ -1,8 +1,10 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { ArrowLeft, Phone, User, DollarSign, MapPin, Users } from 'lucide-react';
+import { ArrowLeft, Phone, User, DollarSign, MapPin, Users, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 
 // Fake sample data
 const dashboardData = [
@@ -53,6 +55,14 @@ const dashboardData = [
 const Dashboard = () => {
   const totalBudget = dashboardData.reduce((sum, item) => sum + item.budget, 0);
   const averageBudget = Math.round(totalBudget / dashboardData.length);
+  const { toast } = useToast();
+
+  const handleBuyLead = (customerName: string, customerId: number) => {
+    toast({
+      title: "Lead Purchased!",
+      description: `Successfully purchased lead for ${customerName} (ID: ${customerId})`,
+    });
+  };
 
   return (
     <div className="min-h-screen bg-background p-6">
@@ -150,6 +160,12 @@ const Dashboard = () => {
                         City Area
                       </div>
                     </TableHead>
+                    <TableHead className="font-semibold text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <ShoppingCart className="h-4 w-4" />
+                        Buy Lead
+                      </div>
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -171,6 +187,16 @@ const Dashboard = () => {
                       </TableCell>
                       <TableCell className="text-muted-foreground">
                         {customer.cityArea}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <Button 
+                          size="sm" 
+                          className="bg-gradient-primary hover:shadow-glow transition-all duration-300"
+                          onClick={() => handleBuyLead(customer.name, customer.id)}
+                        >
+                          <ShoppingCart className="h-4 w-4 mr-1" />
+                          Buy
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}
