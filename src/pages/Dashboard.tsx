@@ -5,6 +5,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { ArrowLeft, Phone, User, DollarSign, MapPin, Users, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
+import { useEffect, useState } from 'react';
+import { supabase } from './supabase';
 
 // Fake sample data
 const dashboardData = [
@@ -53,8 +55,35 @@ const dashboardData = [
 ];
 
 const Dashboard = () => {
-  const totalBudget = dashboardData.reduce((sum, item) => sum + item.budget, 0);
-  const averageBudget = Math.round(totalBudget / dashboardData.length);
+
+  const [ leadData, setLeadData ] = useState([])
+
+  useEffect(() => {
+
+    async function getLeadData() {
+    let { data: inauguralMango, error } = await supabase
+    .from('inauguralMango')
+    .select('*')
+
+    console.log("data from getLeadData is: ", inauguralMango, "and error is: ", error);
+
+    setLeadData(inauguralMango);
+
+    }
+
+    getLeadData()
+          
+  },[])
+
+  useEffect(() => {
+    console.log("value of leadData is: ", leadData)
+  },[leadData])
+
+
+
+
+  const totalBudget = leadData.reduce((sum, item) => sum + item.budget, 0);
+  const averageBudget = Math.round(totalBudget / leadData.length);
   const { toast } = useToast();
 
   const handleBuyLead = (customerName: string, customerId: number) => {
@@ -93,7 +122,7 @@ const Dashboard = () => {
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{dashboardData.length}</div>
+              <div className="text-2xl font-bold">{leadData.length}</div>
               <p className="text-xs text-muted-foreground">
                 Active customer records
               </p>
@@ -169,11 +198,11 @@ const Dashboard = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {dashboardData.map((customer) => (
-                    <TableRow key={customer.id} className="border-border/50 hover:bg-muted/50 transition-colors">
+                  {leadData.map((customer, index) => (
+                    <TableRow key={index} className="border-border/50 hover:bg-muted/50 transition-colors">
                       <TableCell>
                         <Badge variant="secondary" className="bg-primary/10 text-primary">
-                          {customer.id}
+                          {index}
                         </Badge>
                       </TableCell>
                       <TableCell className="font-medium">{customer.name}</TableCell>
@@ -182,17 +211,17 @@ const Dashboard = () => {
                       </TableCell>
                       <TableCell>
                         <span className="font-semibold text-primary">
-                          ${customer.budget.toLocaleString()}
+                          ${customer?.budget?.toLocaleString()}
                         </span>
                       </TableCell>
                       <TableCell className="text-muted-foreground">
-                        {customer.cityArea}
+                        {customer.area}
                       </TableCell>
                       <TableCell className="text-center">
                         <Button 
                           size="sm" 
                           className="bg-gradient-primary hover:shadow-glow transition-all duration-300"
-                          onClick={() => handleBuyLead(customer.name, customer.id)}
+                          onClick={() => handleBuyLead(customer.name, customer.index)}
                         >
                           <ShoppingCart className="h-4 w-4 mr-1" />
                           Buy

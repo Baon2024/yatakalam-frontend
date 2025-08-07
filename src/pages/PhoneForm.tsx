@@ -28,12 +28,12 @@ const PhoneForm = () => {
     
     try {
       // Simulated API call
-      const response = await fetch('/api/phone', {
+      const response = await fetch('https://4615552e39b9.ngrok-free.app/outbound-call', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ phoneNumber })
+        body: JSON.stringify({ number: phoneNumber })
       });
       
       if (response.ok) {
