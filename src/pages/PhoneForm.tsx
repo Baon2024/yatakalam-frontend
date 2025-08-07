@@ -28,7 +28,7 @@ const PhoneForm = () => {
     
     try {
       // Simulated API call
-      const response = await fetch('https://4615552e39b9.ngrok-free.app/outbound-call', {
+      const response = await fetch('https://mangoexpressbackend-tbsi.onrender.com/outbound-call', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
