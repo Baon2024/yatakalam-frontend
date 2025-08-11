@@ -2,8 +2,32 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Phone, BarChart3, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { supabase } from './supabase';
+import { useAuth } from '@/hooks/authState';
+import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
+  const { user, setUser } = useAuth()
+  const navigate = useNavigate()
+
+ async function signOut() {
+    const { error } = await supabase.auth.signOut();
+    // Listener will set user to null, but you can also do it eagerly:
+    if (!error) {
+      setUser(null);
+      localStorage.removeItem('userUDN');
+      console.log("user successfully signed-out!")
+      //need to clear localStorage, too
+      navigate('/')
+
+    }
+    return { error };
+  }
+
+
+
+
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
@@ -18,6 +42,10 @@ const Index = () => {
             <p className="text-xl text-white/90 max-w-2xl mx-auto">
               Streamline your customer data collection and analysis with our intuitive platform
             </p>
+            <Button onClick={signOut}>Sign-Out</Button>
+            <Button>
+            <Link to="/developer-details" >set developer details</Link>
+            </Button>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 shadow-glow">
                 <Link to="/phone-form" className="flex items-center gap-2">

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,6 +11,15 @@ const PhoneForm = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const [ uniqueDeveloperNumber, setUniqueDeveloperNumber ] = useState('')
+
+  useEffect(() => {
+    let userUDN = JSON.parse(localStorage.getItem('userUDN'));
+    console.log("parsed userUDN from localStorage is: ", userUDN);
+    let uniqueDeveloperNumberToSet = userUDN.unique_developer_number;
+    console.log("and uniqueDeveloperNumber is: ", uniqueDeveloperNumberToSet);
+    setUniqueDeveloperNumber(uniqueDeveloperNumberToSet);
+  },[])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,8 +36,8 @@ const PhoneForm = () => {
     setIsLoading(true);
     
     try {
-      // Simulated API call
-      const response = await fetch('https://mangoexpressbackend-tbsi.onrender.com/outbound-call', {
+      // Simulated API call //https://mangoexpressbackend-tbsi.onrender.com make dynamic too, maybe
+      const response = await fetch(`https://mangoexpressbackend-tbsi.onrender.com/outbound-call/${uniqueDeveloperNumber}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -60,7 +69,7 @@ const PhoneForm = () => {
     <div className="min-h-screen bg-background p-4 flex items-center justify-center">
       <div className="w-full max-w-md space-y-6">
         <Link 
-          to="/" 
+          to="/index" 
           className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -73,7 +82,7 @@ const PhoneForm = () => {
               <Phone className="h-8 w-8 text-primary-foreground" />
             </div>
             <div>
-              <CardTitle className="text-2xl">Phone Number Form</CardTitle>
+              <CardTitle className="text-2xl">Test Your Agent</CardTitle>
               <CardDescription className="text-muted-foreground">
                 Enter your phone number to submit
               </CardDescription>

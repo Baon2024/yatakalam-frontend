@@ -2,11 +2,20 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { ArrowLeft, Phone, User, DollarSign, MapPin, Users, ShoppingCart } from 'lucide-react';
+import { ArrowLeft, Phone, User, DollarSign, MapPin, Users, ShoppingCart, CircleHelp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { useEffect, useState } from 'react';
 import { supabase } from './supabase';
+import { useAuth } from '@/hooks/authState';
+
+const TrafficLightIcon = () => (
+  <div className="flex flex-col items-center justify-center gap-0.5">
+    <span className="block w-2.5 h-2.5 bg-red-500 rounded-full" />
+    <span className="block w-2.5 h-2.5 bg-yellow-400 rounded-full" />
+    <span className="block w-2.5 h-2.5 bg-green-500 rounded-full" />
+  </div>
+);
 
 // Fake sample data
 const dashboardData = [
@@ -57,13 +66,18 @@ const dashboardData = [
 const Dashboard = () => {
 
   const [ leadData, setLeadData ] = useState([])
+  const { user, loading } = useAuth()
+  console.log("user is: ", user);
 
   useEffect(() => {
+    if (!user) return 
+    let userID = user.id
 
     async function getLeadData() {
     let { data: inauguralMango, error } = await supabase
-    .from('inauguralMango')
+    .from('Call Lead Details')
     .select('*')
+    .eq('linked_user', userID);
 
     console.log("data from getLeadData is: ", inauguralMango, "and error is: ", error);
 
@@ -73,11 +87,9 @@ const Dashboard = () => {
 
     getLeadData()
           
-  },[])
+  },[user])
 
-  useEffect(() => {
-    console.log("value of leadData is: ", leadData)
-  },[leadData])
+ 
 
 
 
@@ -93,13 +105,15 @@ const Dashboard = () => {
     });
   };
 
+  if (!user?.id) return ( <p>nothing to see yet</p>)
+
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto space-y-8">
         <div className="flex items-center justify-between">
           <div>
             <Link 
-              to="/" 
+              to="/index" 
               className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-4"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -118,7 +132,7 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card className="bg-gradient-card shadow-soft border-0">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Customers</CardTitle>
+              <CardTitle className="text-sm font-medium">Total Prospect Calls</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -131,7 +145,7 @@ const Dashboard = () => {
           
           <Card className="bg-gradient-card shadow-soft border-0">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Budget</CardTitle>
+              <CardTitle className="text-sm font-medium">Total Lead Value</CardTitle>
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -191,8 +205,14 @@ const Dashboard = () => {
                     </TableHead>
                     <TableHead className="font-semibold text-center">
                       <div className="flex items-center justify-center gap-2">
-                        <ShoppingCart className="h-4 w-4" />
-                        Buy Lead
+                        <CircleHelp className="h-4 w-4" />
+                        Custom Questions
+                      </div>
+                    </TableHead>
+                    <TableHead className="font-semibold text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <TrafficLightIcon />
+                        Lead Warmth
                       </div>
                     </TableHead>
                   </TableRow>
@@ -217,16 +237,44 @@ const Dashboard = () => {
                       <TableCell className="text-muted-foreground">
                         {customer.area}
                       </TableCell>
-                      <TableCell className="text-center">
-                        <Button 
-                          size="sm" 
-                          className="bg-gradient-primary hover:shadow-glow transition-all duration-300"
-                          onClick={() => handleBuyLead(customer.name, customer.index)}
-                        >
-                          <ShoppingCart className="h-4 w-4 mr-1" />
-                          Buy
-                        </Button>
-                      </TableCell>
+                     <TableCell className="align-top">
+  <div className="text-sm font-mono text-left leading-5 break-words whitespace-pre-wrap">
+    {Array.isArray(customer.custom_questions) && customer.custom_questions.length > 0 ? (
+      customer.custom_questions.map((q, i) => {
+        // normalize to [label, value]
+        const pairs = q && typeof q === "object" && !("key" in q)
+          ? Object.entries(q) // shape: [{ "Some label": "value" }]
+          : [["" + q?.key, q?.value]]; // shape: [{ key, value }]
+
+        return pairs.map(([label, value], j) => (
+          <div key={`${i}-${j}`} className="grid grid-cols-[auto,1fr] gap-x-2 gap-y-1 py-0.5">
+            <span className="font-semibold text-foreground">{label}</span>
+            <span className="text-muted-foreground">{String(value ?? "")}</span>
+          </div>
+        ));
+      })
+    ) : (
+      <span className="text-muted-foreground">—</span>
+    )}
+  </div>
+</TableCell>
+<TableCell className="text-center">
+  {customer.lead_warmth_rating ? (
+    <span
+      className={`inline-block w-3 h-3 rounded-full ${
+        customer.lead_warmth_rating.toLowerCase() === "warm"
+          ? "bg-green-500"
+          : customer.lead_warmth_rating.toLowerCase() === "medium"
+          ? "bg-orange-500"
+          : "bg-red-500"
+      }`}
+      title={customer.lead_warmth_rating}
+    />
+  ) : (
+    <span className="text-muted-foreground">—</span>
+  )}
+</TableCell>
+
                     </TableRow>
                   ))}
                 </TableBody>
