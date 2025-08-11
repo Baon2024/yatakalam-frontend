@@ -9,7 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import Onboard from "./pages/Onboard";
 import { AuthProvider } from "./hooks/authState";
-import DeveloperDetails from "./pages/developerDetails";
+import DeveloperDetails from "./pages/DeveloperDetails";
 
 const queryClient = new QueryClient();
 
