@@ -13,8 +13,7 @@ const PhoneForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const [ uniqueDeveloperNumber, setUniqueDeveloperNumber ] = useState('')
-  const [ toggleUniversalQuestions, setToggleUniversalQuestions ] = useState(true)
-  const [isToggleEnabled, setIsToggleEnabled] = useState(false)
+
 
   useEffect(() => {
     let userUDN = JSON.parse(localStorage.getItem('userUDN'));
@@ -24,9 +23,7 @@ const PhoneForm = () => {
     setUniqueDeveloperNumber(uniqueDeveloperNumberToSet);
   },[])
 
-  useEffect(() => {
-    console.log("isToggleEnabled is: ", isToggleEnabled);
-  },[isToggleEnabled])
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,12 +41,12 @@ const PhoneForm = () => {
     
     try {
       // Simulated API call //https://mangoexpressbackend-tbsi.onrender.com make dynamic too, maybe
-      const response = await fetch(`https://mangoexpressbackend-tbsi.onrender.com/outbound-call/${uniqueDeveloperNumber}`, {
+      const response = await fetch(`https://016f602a7bda.ngrok-free.app/outbound-call/${uniqueDeveloperNumber}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ number: phoneNumber, universalQuestionsOn: isToggleEnabled })
+        body: JSON.stringify({ number: phoneNumber })
       });
       
       if (response.ok) {
@@ -110,15 +107,7 @@ const PhoneForm = () => {
                 />
               </div>
 
-              <div className="flex items-center justify-between space-x-2">
-                <div className="space-y-1">
-                  <Label htmlFor="toggle" className="text-sm font-medium">
-                    Enable Universal Questions only
-                  </Label>
-                  <p className="text-xs text-muted-foreground">Toggle advanced features for your agent test</p>
-                </div>
-                <Switch id="toggle" checked={isToggleEnabled} onCheckedChange={setIsToggleEnabled} />
-              </div>
+              
 
               <Button
                 type="submit"
