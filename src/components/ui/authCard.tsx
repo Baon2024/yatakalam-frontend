@@ -21,12 +21,12 @@ export default function AuthCard() {
   const handleSignUp = async (event) => {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
-    const name = formData.get("name")
+    const organisationName = formData.get("name")
     let email = formData.get("email")
     let password = formData.get("password")
     const confirmPassword = formData.get("confirmPassword")
 
-    console.log("Sign up:", { name, email, password, confirmPassword })
+    console.log("Sign up:", { organisationName, email, password, confirmPassword })
     // Add your sign-up logic here
     if (password === confirmPassword) {
         //sign-up logic
@@ -41,7 +41,7 @@ export default function AuthCard() {
     if (error) {
         toast({
         title: "Error",
-        description: "There was an error in the sign-up process",
+        description: `There was an error in the sign-up process ${error} `,
         variant: "destructive"
       });
     } else if (data.session) {
@@ -58,17 +58,18 @@ export default function AuthCard() {
 
         //need to generate uniqueDeveloperNumber and store in the user-details table, using their uid
         //then retrieve it from user-details table, and store in localStorage
+        //need to add organisationName to userDetails
 
       const { data: udnData, error } = await supabase
   .from('user-details')
   .insert([
-    { linked_user: userID },
+    { linked_user: userID, organisation_name: organisationName },
   ])
   .select()
   if (error) {
     console.log("there was an error in creating user's UDN ", error)
   } else if (data) {
-    console.log("UDN created, data returned is: ", udnData);
+    console.log("UDN created and organisationName inserted, data returned is: ", udnData);
     //put in localStorage, for user in endpoint url parameter
     localStorage.setItem('userUDN', JSON.stringify(udnData[0]));
   }
@@ -200,7 +201,7 @@ export default function AuthCard() {
             <TabsContent value="signup" className="space-y-4">
               <form onSubmit={handleSignUp} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="signup-name">Full Name</Label>
+                  <Label htmlFor="signup-name">Organisation Name</Label>
                   <Input id="signup-name" name="name" type="text" placeholder="John Doe" required />
                 </div>
                 <div className="space-y-2">

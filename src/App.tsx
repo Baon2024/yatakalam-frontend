@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import Onboard from "./pages/Onboard";
 import { AuthProvider } from "./hooks/authState";
 import DeveloperDetails from "./pages/DeveloperDetails";
+import HowToIntegrate from "./pages/HowToIntegrate";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/index" element={<Index />} />
           <Route path="/phone-form" element={<PhoneForm />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/howToIntegrate" element={<HowToIntegrate />} />
           <Route path='/developer-details' element={<DeveloperDetails />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

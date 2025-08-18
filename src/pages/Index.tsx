@@ -10,6 +10,11 @@ const Index = () => {
   const { user, setUser } = useAuth()
   const navigate = useNavigate()
 
+  let userUDN = JSON.parse(localStorage.getItem("userUDN"))
+  let organisationName = userUDN.organisation_name
+  console.log("userUDN is ", userUDN) 
+  console.log("organisationName is ", organisationName)
+
  async function signOut() {
     const { error } = await supabase.auth.signOut();
     // Listener will set user to null, but you can also do it eagerly:
@@ -36,7 +41,7 @@ const Index = () => {
         <div className="relative max-w-7xl mx-auto px-6 py-24 sm:py-32">
           <div className="text-center space-y-8">
             <h1 className="text-4xl sm:text-6xl font-bold text-white">
-              Customer Management
+              Customer Management for {organisationName}
               <span className="block text-primary-glow">Made Simple</span>
             </h1>
             <p className="text-xl text-white/90 max-w-2xl mx-auto">
