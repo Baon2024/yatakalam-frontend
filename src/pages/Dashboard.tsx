@@ -191,7 +191,23 @@ const Dashboard = () => {
                         Phone Number
                       </div>
                     </TableHead>
-                    
+                    <TableHead className="font-semibold">
+                      <div className="flex items-center gap-2">
+                        <DollarSign className="h-4 w-4" />
+                        Budget
+                      </div>
+                    </TableHead>
+                    <TableHead className="font-semibold">
+                      <div className="flex items-center gap-2">
+                        <MapPin className="h-4 w-4" />
+                        City Area
+                      </div>
+                    </TableHead>
+                     <TableHead className="font-semibold">
+                      <div className="flex items-center gap-2">
+                        Move date
+                      </div>
+                    </TableHead>
                     <TableHead className="font-semibold text-center">
                       <div className="flex items-center justify-center gap-2">
                         <CircleHelp className="h-4 w-4" />
@@ -218,7 +234,17 @@ const Dashboard = () => {
                       <TableCell>
                         <span className="font-mono text-sm">{customer?.phoneNumber}</span>
                       </TableCell>
-                     
+                      <TableCell>
+                        <span className="font-semibold text-primary">
+                          ${customer?.budget?.toLocaleString()}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-muted-foreground">
+                        {customer?.area}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground">
+                        {customer?.when}
+                      </TableCell>
                      <TableCell className="align-top">
   <div className="text-sm font-mono text-left leading-5 break-words whitespace-pre-wrap">
     {Array.isArray(customer.custom_questions) && customer.custom_questions.length > 0 ? (
