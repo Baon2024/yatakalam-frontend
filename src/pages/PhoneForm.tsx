@@ -41,7 +41,7 @@ const PhoneForm = () => {
     
     try {
       // Simulated API call //https://mangoexpressbackend-tbsi.onrender.com make dynamic too, maybe
-      const response = await fetch(`https://mangoexpressbackend-tbsi.onrender.com/outbound-call/${uniqueDeveloperNumber}`, {
+      const response = await fetch(`https://8e20258e0628.ngrok-free.app/outbound-call/${uniqueDeveloperNumber}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -53,6 +53,7 @@ const PhoneForm = () => {
         toast({
           title: "Success!",
           description: "Phone number submitted successfully",
+          variant: "success"
         });
         setPhoneNumber('');
       } else {
