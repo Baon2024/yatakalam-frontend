@@ -1,6 +1,14 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -13,10 +21,17 @@ import { useNavigate } from "react-router-dom"
 
 export default function AuthCard() {
   const [showPassword, setShowPassword] = useState(false)
+  const [status, setStatus] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const { user, setUser } = useAuth() //use these to set user immaidetly and re-direct without waiting
+  const [ email, setEmail ] = useState("")
   const { toast } = useToast()
+  const [ showForgotPasswordModal, setShowForgotPasswordModal ] = useState(false);
   const navigate = useNavigate()
+
+  useEffect(() => {
+    console.log("value of email is: ", email)
+  })
 
   const handleSignUp = async (event) => {
     event.preventDefault()
@@ -150,6 +165,25 @@ export default function AuthCard() {
     //need to retrieve UDN from user-details table, and store in localStorage
   }
 
+  const handleForgotPassword = (e) => {
+    console.log("Now showing modal for forgotten email...")
+    setShowForgotPasswordModal(true)
+  }
+
+  const handleSendForgotPassword = async (e) => {
+    e.preventDefault()
+    console.log("handleSendForgotPassword triggered...")
+    console.log(`address being sent to is: ${window.location.origin}/reset-password`)
+    setStatus("sending");
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    console.log("and after handleSendForgotPassword ...")
+    if (error) setStatus(`error:${error.message}`);
+    else setStatus("sent");
+  
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
       <Card className="w-full max-w-md">
@@ -191,6 +225,16 @@ export default function AuthCard() {
                       <span className="sr-only">{showPassword ? "Hide password" : "Show password"}</span>
                     </Button>
                   </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <Button
+                    type="button"
+                    variant="link"
+                    className="px-0 text-sm text-muted-foreground hover:text-primary"
+                    onClick={handleForgotPassword}
+                  >
+                    Forgot password?
+                  </Button>
                 </div>
                 <Button type="submit" className="w-full">
                   Sign In
@@ -272,6 +316,37 @@ export default function AuthCard() {
           </div>
         </CardFooter>
       </Card>
+
+      <Dialog open={showForgotPasswordModal} onOpenChange={setShowForgotPasswordModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Reset Password</DialogTitle>
+            <DialogDescription>
+              Enter your email address and we'll send you a link to reset your password.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleSendForgotPassword}>
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label htmlFor="forgot-email">Email</Label>
+                <Input
+                  id="forgot-email"
+                  type="email"
+                  placeholder="m@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="submit" className="w-full">
+                Send Reset Link
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
