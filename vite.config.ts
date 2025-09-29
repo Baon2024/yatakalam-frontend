@@ -19,4 +19,19 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+
+  build: {
+    // we want **production** sourcemaps so we can trace the crash in dist
+    sourcemap: true,
+
+    // (optional) if you want to experiment with chunking to split vendor code:
+    // rollupOptions: {
+    //   output: {
+    //     manualChunks: {
+    //       react: ["react", "react-dom"],
+    //       monaco: ["monaco-editor"],
+    //     },
+    //   },
+    // },
+  },
 }));

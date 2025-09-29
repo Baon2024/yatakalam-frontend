@@ -11,6 +11,7 @@ import Onboard from "./pages/Onboard";
 import { AuthProvider } from "./hooks/authState";
 import DeveloperDetails from "./pages/DeveloperDetails";
 import HowToIntegrate from "./pages/HowToIntegrate";
+import ResetPassword from "./pages/ResetPassword";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Onboard />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/index" element={<Index />} />
           <Route path="/phone-form" element={<PhoneForm />} />
           <Route path="/dashboard" element={<Dashboard />} />

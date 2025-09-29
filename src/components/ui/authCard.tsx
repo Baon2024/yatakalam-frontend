@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom"
 
 export default function AuthCard() {
   const [showPassword, setShowPassword] = useState(false)
-  const [status, setStatus] = useState(false)
+  const [status, setStatus] = useState("")
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const { user, setUser } = useAuth() //use these to set user immaidetly and re-direct without waiting
   const [ email, setEmail ] = useState("")
@@ -175,9 +175,20 @@ export default function AuthCard() {
     console.log("handleSendForgotPassword triggered...")
     console.log(`address being sent to is: ${window.location.origin}/reset-password`)
     setStatus("sending");
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/reset-password`,
     });
+    console.log("data is: ", data);
+    if (data) {
+      console.log("successfully sent!")
+      setShowForgotPasswordModal(false)
+      //then add toast to inform user
+      toast({
+        title: "Success",
+        description: "Password reset link sent to your email!",
+        variant: "success"
+      });
+    }
     console.log("and after handleSendForgotPassword ...")
     if (error) setStatus(`error:${error.message}`);
     else setStatus("sent");

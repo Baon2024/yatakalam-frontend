@@ -108,108 +108,98 @@ const Dashboard = () => {
   if (!user?.id) return ( <p>nothing to see yet</p>)
 
   return (
-    <div className="min-h-screen bg-background p-6">
+    <div className="min-h-screen bg-black p-6">
       <div className="max-w-7xl mx-auto space-y-8">
         <div className="flex items-center justify-between">
-          <div>
-            <Link 
-              to="/index" 
-              className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-4"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Back to Home
-            </Link>
-            <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              Customer Dashboard
-            </h1>
-            <p className="text-muted-foreground mt-2">
-              Overview of customer data and analytics
-            </p>
+          <div className="space-y-4">
+            <button
+          onClick={() => window.history.back()}
+          className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Home
+        </button>
+
+            <div>
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent">
+                Customer Dashboard
+              </h1>
+              <p className="text-gray-400 mt-2">Overview of customer data and analytics</p>
+            </div>
           </div>
         </div>
 
-        {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="bg-gradient-card shadow-soft border-0">
+          <Card className="bg-gray-900 border-gray-800 shadow-lg shadow-green-400/10 hover:shadow-green-400/20 transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Prospect Calls</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-gray-300">Total Prospect Calls</CardTitle>
+              <Users className="h-4 w-4 text-green-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{leadData.length}</div>
-              <p className="text-xs text-muted-foreground">
-                Active customer records
-              </p>
+              <div className="text-2xl font-bold text-green-400">{leadData.length}</div>
+              <p className="text-xs text-gray-500">Active customer records</p>
             </CardContent>
           </Card>
-          
-          <Card className="bg-gradient-card shadow-soft border-0">
+
+          <Card className="bg-gray-900 border-gray-800 shadow-lg shadow-green-400/10 hover:shadow-green-400/20 transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Lead Value</CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-gray-300">Total Lead Value</CardTitle>
+              <DollarSign className="h-4 w-4 text-green-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">${totalBudget.toLocaleString()}</div>
-              <p className="text-xs text-muted-foreground">
-                Combined budget amount
-              </p>
+              <div className="text-2xl font-bold text-green-400">${totalBudget.toLocaleString()}</div>
+              <p className="text-xs text-gray-500">Combined budget amount</p>
             </CardContent>
           </Card>
-          
-          <Card className="bg-gradient-card shadow-soft border-0">
+
+          <Card className="bg-gray-900 border-gray-800 shadow-lg shadow-green-400/10 hover:shadow-green-400/20 transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Average Budget</CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-gray-300">Average Budget</CardTitle>
+              <DollarSign className="h-4 w-4 text-green-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">${averageBudget.toLocaleString()}</div>
-              <p className="text-xs text-muted-foreground">
-                Per customer average
-              </p>
+              <div className="text-2xl font-bold text-green-400">${averageBudget.toLocaleString()}</div>
+              <p className="text-xs text-gray-500">Per customer average</p>
             </CardContent>
           </Card>
         </div>
 
-        {/* Customer Data Table */}
         <div className="space-y-4">
-          <h2 className="text-2xl font-semibold">Customer Records</h2>
-          <Card className="bg-gradient-card shadow-soft border-0">
+          <h2 className="text-2xl font-semibold text-white">Customer Records</h2>
+          <Card className="bg-gray-900 border-gray-800 shadow-lg">
             <CardContent className="p-0">
               <Table>
                 <TableHeader>
-                  <TableRow className="border-border/50">
-                    <TableHead className="w-[100px] font-semibold">ID</TableHead>
-                    <TableHead className="font-semibold">
+                  <TableRow className="border-gray-800 hover:bg-gray-800/50">
+                    <TableHead className="w-[100px] font-semibold text-gray-300">ID</TableHead>
+                    <TableHead className="font-semibold text-gray-300">
                       <div className="flex items-center gap-2">
                         <User className="h-4 w-4" />
                         Name
                       </div>
                     </TableHead>
-                    <TableHead className="font-semibold">
+                    <TableHead className="font-semibold text-gray-300">
                       <div className="flex items-center gap-2">
                         <Phone className="h-4 w-4" />
                         Phone Number
                       </div>
                     </TableHead>
-                    <TableHead className="font-semibold">
+                    <TableHead className="font-semibold text-gray-300">
                       <div className="flex items-center gap-2">
                         <DollarSign className="h-4 w-4" />
                         Budget
                       </div>
                     </TableHead>
-                   
-                     <TableHead className="font-semibold">
-                      <div className="flex items-center gap-2">
-                        Move date
-                      </div>
+                    <TableHead className="font-semibold text-gray-300">
+                      <div className="flex items-center gap-2">Move date</div>
                     </TableHead>
-                    <TableHead className="font-semibold text-center">
+                    <TableHead className="font-semibold text-center text-gray-300">
                       <div className="flex items-center justify-center gap-2">
                         <CircleHelp className="h-4 w-4" />
                         Custom Questions
                       </div>
                     </TableHead>
-                    <TableHead className="font-semibold text-center">
+                    <TableHead className="font-semibold text-center text-gray-300">
                       <div className="flex items-center justify-center gap-2">
                         <TrafficLightIcon />
                         Lead Warmth
@@ -219,63 +209,58 @@ const Dashboard = () => {
                 </TableHeader>
                 <TableBody>
                   {leadData.map((customer, index) => (
-                    <TableRow key={index} className="border-border/50 hover:bg-muted/50 transition-colors">
+                    <TableRow key={index} className="border-gray-800 hover:bg-gray-800/30 transition-colors">
                       <TableCell>
-                        <Badge variant="secondary" className="bg-primary/10 text-primary">
+                        <Badge variant="secondary" className="bg-green-400/10 text-green-400 border-green-400/20">
                           {index}
                         </Badge>
                       </TableCell>
-                      <TableCell className="font-medium">{customer?.name}</TableCell>
+                      <TableCell className="font-medium text-white">{customer?.name}</TableCell>
                       <TableCell>
-                        <span className="font-mono text-sm">{customer?.phoneNumber}</span>
+                        <span className="font-mono text-sm text-gray-300">{customer?.phoneNumber}</span>
                       </TableCell>
                       <TableCell>
-                        <span className="font-semibold text-primary">
-                          ${customer?.budget?.toLocaleString()}
-                        </span>
+                        <span className="font-semibold text-green-400">${customer?.budget?.toLocaleString()}</span>
                       </TableCell>
-                     
-                      <TableCell className="text-muted-foreground">
-                        {customer?.when}
+                      <TableCell className="text-gray-400">{customer?.when}</TableCell>
+                      <TableCell className="align-top">
+                        <div className="text-sm font-mono text-left leading-5 break-words whitespace-pre-wrap">
+                          {Array.isArray(customer.custom_questions) && customer.custom_questions.length > 0 ? (
+                            customer.custom_questions.map((q, i) => {
+                              // normalize to [label, value]
+                              const pairs =
+                                q && typeof q === "object" && !("key" in q)
+                                  ? Object.entries(q) // shape: [{ "Some label": "value" }]
+                                  : [["" + q?.key, q?.value]] // shape: [{ key, value }]
+
+                              return pairs.map(([label, value], j) => (
+                                <div key={`${i}-${j}`} className="grid grid-cols-[auto,1fr] gap-x-2 gap-y-1 py-0.5">
+                                  <span className="font-semibold text-white">{label}</span>
+                                  <span className="text-gray-400">{String(value ?? "")}</span>
+                                </div>
+                              ))
+                            })
+                          ) : (
+                            <span className="text-gray-500">—</span>
+                          )}
+                        </div>
                       </TableCell>
-                     <TableCell className="align-top">
-  <div className="text-sm font-mono text-left leading-5 break-words whitespace-pre-wrap">
-    {Array.isArray(customer.custom_questions) && customer.custom_questions.length > 0 ? (
-      customer.custom_questions.map((q, i) => {
-        // normalize to [label, value]
-        const pairs = q && typeof q === "object" && !("key" in q)
-          ? Object.entries(q) // shape: [{ "Some label": "value" }]
-          : [["" + q?.key, q?.value]]; // shape: [{ key, value }]
-
-        return pairs.map(([label, value], j) => (
-          <div key={`${i}-${j}`} className="grid grid-cols-[auto,1fr] gap-x-2 gap-y-1 py-0.5">
-            <span className="font-semibold text-foreground">{label}</span>
-            <span className="text-muted-foreground">{String(value ?? "")}</span>
-          </div>
-        ));
-      })
-    ) : (
-      <span className="text-muted-foreground">—</span>
-    )}
-  </div>
-</TableCell>
-<TableCell className="text-center">
-  {customer.lead_warmth_rating ? (
-    <span
-      className={`inline-block w-3 h-3 rounded-full ${
-        customer.lead_warmth_rating.toLowerCase() === "warm"
-          ? "bg-green-500"
-          : customer.lead_warmth_rating.toLowerCase() === "medium"
-          ? "bg-orange-500"
-          : "bg-red-500"
-      }`}
-      title={customer.lead_warmth_rating}
-    />
-  ) : (
-    <span className="text-muted-foreground">—</span>
-  )}
-</TableCell>
-
+                      <TableCell className="text-center">
+                        {customer.lead_warmth_rating ? (
+                          <span
+                            className={`inline-block w-3 h-3 rounded-full ${
+                              customer.lead_warmth_rating.toLowerCase() === "warm"
+                                ? "bg-green-500"
+                                : customer.lead_warmth_rating.toLowerCase() === "medium"
+                                  ? "bg-orange-500"
+                                  : "bg-red-500"
+                            }`}
+                            title={customer.lead_warmth_rating}
+                          />
+                        ) : (
+                          <span className="text-gray-500">—</span>
+                        )}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -285,7 +270,7 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
-  );
+  )
 };
 
 export default Dashboard;
