@@ -196,27 +196,52 @@ export default function AuthCard() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
-      <Card className="w-full max-w-md">
+    <div className="flex min-h-screen items-center justify-center bg-black p-4">
+      <Card className="w-full max-w-md bg-gray-900 border-gray-800 shadow-lg hover:shadow-xl transition-all duration-300">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Welcome</CardTitle>
-          <CardDescription className="text-center">Sign in to your account or create a new one</CardDescription>
+          <CardTitle className="text-2xl font-bold text-center bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+            Welcome
+          </CardTitle>
+          <CardDescription className="text-center text-gray-400">
+            Sign in to your account or create a new one
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="login" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="login">Login</TabsTrigger>
-              <TabsTrigger value="signup">Sign Up</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 bg-gray-900">
+              <TabsTrigger
+                value="login"
+                className="h-10 px-4 py-2 font-medium transition-all duration-200 data-[state=active]:bg-green-400 data-[state=active]:text-black data-[state=inactive]:bg-gray-700 data-[state=inactive]:text-gray-300 data-[state=inactive]:hover:bg-gray-600 data-[state=inactive]:hover:text-white"
+              >
+                Login
+              </TabsTrigger>
+              <TabsTrigger
+                value="signup"
+                className="h-10 px-4 py-2 font-medium transition-all duration-200 data-[state=active]:bg-green-400 data-[state=active]:text-black data-[state=inactive]:bg-gray-700 data-[state=inactive]:text-gray-300 data-[state=inactive]:hover:bg-gray-600 data-[state=inactive]:hover:text-white"
+              >
+                Sign Up
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="login" className="space-y-4">
               <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="login-email">Email</Label>
-                  <Input id="login-email" name="email" type="email" placeholder="m@example.com" required />
+                  <Label htmlFor="login-email" className="text-gray-300">
+                    Email
+                  </Label>
+                  <Input
+                    id="login-email"
+                    name="email"
+                    type="email"
+                    placeholder="m@example.com"
+                    required
+                    className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-green-400 focus:ring-green-400"
+                  />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="login-password">Password</Label>
+                  <Label htmlFor="login-password" className="text-gray-300">
+                    Password
+                  </Label>
                   <div className="relative">
                     <Input
                       id="login-password"
@@ -224,12 +249,13 @@ export default function AuthCard() {
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
                       required
+                      className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-green-400 focus:ring-green-400"
                     />
                     <Button
                       type="button"
                       variant="ghost"
                       size="sm"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-gray-700 text-gray-400 hover:text-green-400"
                       onClick={() => setShowPassword(!showPassword)}
                     >
                       {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -241,13 +267,16 @@ export default function AuthCard() {
                   <Button
                     type="button"
                     variant="link"
-                    className="px-0 text-sm text-muted-foreground hover:text-primary"
+                    className="px-0 text-sm text-gray-400 hover:text-green-400"
                     onClick={handleForgotPassword}
                   >
                     Forgot password?
                   </Button>
                 </div>
-                <Button type="submit" className="w-full">
+                <Button
+                  type="submit"
+                  className="w-full bg-green-400 hover:bg-green-500 text-black font-medium transition-colors"
+                >
                   Sign In
                 </Button>
               </form>
@@ -256,15 +285,35 @@ export default function AuthCard() {
             <TabsContent value="signup" className="space-y-4">
               <form onSubmit={handleSignUp} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="signup-name">Organisation Name</Label>
-                  <Input id="signup-name" name="name" type="text" placeholder="John Doe" required />
+                  <Label htmlFor="signup-name" className="text-gray-300">
+                    Organisation Name
+                  </Label>
+                  <Input
+                    id="signup-name"
+                    name="name"
+                    type="text"
+                    placeholder="John Doe"
+                    required
+                    className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-green-400 focus:ring-green-400"
+                  />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="signup-email">Email</Label>
-                  <Input id="signup-email" name="email" type="email" placeholder="m@example.com" required />
+                  <Label htmlFor="signup-email" className="text-gray-300">
+                    Email
+                  </Label>
+                  <Input
+                    id="signup-email"
+                    name="email"
+                    type="email"
+                    placeholder="m@example.com"
+                    required
+                    className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-green-400 focus:ring-green-400"
+                  />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="signup-password">Password</Label>
+                  <Label htmlFor="signup-password" className="text-gray-300">
+                    Password
+                  </Label>
                   <div className="relative">
                     <Input
                       id="signup-password"
@@ -272,12 +321,13 @@ export default function AuthCard() {
                       type={showPassword ? "text" : "password"}
                       placeholder="Create a password"
                       required
+                      className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-green-400 focus:ring-green-400"
                     />
                     <Button
                       type="button"
                       variant="ghost"
                       size="sm"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-gray-700 text-gray-400 hover:text-green-400"
                       onClick={() => setShowPassword(!showPassword)}
                     >
                       {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -286,7 +336,9 @@ export default function AuthCard() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="signup-confirm-password">Confirm Password</Label>
+                  <Label htmlFor="signup-confirm-password" className="text-gray-300">
+                    Confirm Password
+                  </Label>
                   <div className="relative">
                     <Input
                       id="signup-confirm-password"
@@ -294,12 +346,13 @@ export default function AuthCard() {
                       type={showConfirmPassword ? "text" : "password"}
                       placeholder="Confirm your password"
                       required
+                      className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-green-400 focus:ring-green-400"
                     />
                     <Button
                       type="button"
                       variant="ghost"
                       size="sm"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-gray-700 text-gray-400 hover:text-green-400"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     >
                       {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -307,7 +360,10 @@ export default function AuthCard() {
                     </Button>
                   </div>
                 </div>
-                <Button type="submit" className="w-full">
+                <Button
+                  type="submit"
+                  className="w-full bg-green-400 hover:bg-green-500 text-black font-medium transition-colors"
+                >
                   Create Account
                 </Button>
               </form>
@@ -315,13 +371,13 @@ export default function AuthCard() {
           </Tabs>
         </CardContent>
         <CardFooter className="flex flex-col space-y-2">
-          <div className="text-sm text-muted-foreground text-center">
+          <div className="text-sm text-gray-400 text-center">
             By continuing, you agree to our{" "}
-            <a href="#" className="underline hover:text-primary">
+            <a href="#" className="underline hover:text-green-400 transition-colors">
               Terms of Service
             </a>{" "}
             and{" "}
-            <a href="#" className="underline hover:text-primary">
+            <a href="#" className="underline hover:text-green-400 transition-colors">
               Privacy Policy
             </a>
           </div>
@@ -329,17 +385,19 @@ export default function AuthCard() {
       </Card>
 
       <Dialog open={showForgotPasswordModal} onOpenChange={setShowForgotPasswordModal}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md bg-gray-900 border-gray-800 text-white">
           <DialogHeader>
-            <DialogTitle>Reset Password</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-white">Reset Password</DialogTitle>
+            <DialogDescription className="text-gray-400">
               Enter your email address and we'll send you a link to reset your password.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleSendForgotPassword}>
             <div className="space-y-4 py-4">
               <div className="space-y-2">
-                <Label htmlFor="forgot-email">Email</Label>
+                <Label htmlFor="forgot-email" className="text-gray-300">
+                  Email
+                </Label>
                 <Input
                   id="forgot-email"
                   type="email"
@@ -347,11 +405,15 @@ export default function AuthCard() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500 focus:border-green-400 focus:ring-green-400"
                 />
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit" className="w-full">
+              <Button
+                type="submit"
+                className="w-full bg-green-400 hover:bg-green-500 text-black font-medium transition-colors"
+              >
                 Send Reset Link
               </Button>
             </DialogFooter>
