@@ -41,6 +41,11 @@ function navigateToPhoneForm() {
   navigate("/phone-form")
 }
 
+function navigateToHowToIntegrate() {
+  navigate("/HowToIntegrate")
+}
+
+
 
 
   return (
@@ -63,19 +68,19 @@ function navigateToPhoneForm() {
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button
-                onClick={signOut}
+                onClick={navigateToHowToIntegrate}
                 variant="outline"
                 className="bg-gray-900 border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white transition-all duration-300"
               >
                 <LogOut className="h-4 w-4 mr-2" />
-                Sign Out
+                Integrate With Your Site
               </Button>
               <Button
                 onClick={navigateToDeveloperDetails}
                 className="bg-green-400 text-black hover:bg-green-300 shadow-lg hover:shadow-green-400/25 transition-all duration-300"
               >
                 <Settings className="h-4 w-4 mr-2" />
-                Developer Settings
+                Agent Settings
               </Button>
             </div>
 
@@ -87,7 +92,7 @@ function navigateToPhoneForm() {
                 className="bg-green-400 text-black hover:bg-green-300 shadow-lg hover:shadow-green-400/25 transition-all duration-300"
               >
                 <Phone className="h-5 w-5 mr-2" />
-                Submit Phone Number
+                Test Your Agent
                 <ArrowRight className="h-4 w-4 ml-2" />
               </Button>
               <Button

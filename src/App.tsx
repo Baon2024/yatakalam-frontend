@@ -12,6 +12,7 @@ import { AuthProvider } from "./hooks/authState";
 import DeveloperDetails from "./pages/DeveloperDetails";
 import HowToIntegrate from "./pages/HowToIntegrate";
 import ResetPassword from "./pages/ResetPassword";
+import Layout from "./pages/Layout";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
       <AuthProvider>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Layout />}>
           <Route path="/" element={<Onboard />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/index" element={<Index />} />
@@ -32,6 +34,7 @@ const App = () => (
           <Route path='/developer-details' element={<DeveloperDetails />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
+          </Route>
         </Routes>
       </BrowserRouter>
       </AuthProvider>
